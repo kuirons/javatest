@@ -21,28 +21,13 @@ public class Fruits {
     appleList.add(new Apple("red", 200));
     appleList.add(new Apple("green", 600));
     // 判断苹果重量
-    result =
-        Fruits.predicateFruit(
-            appleList,
-            new FruitsPredicate<Apple>() {
-              @Override
-              public boolean test(Apple apple) {
-                return apple.getWeight() > 500 ? true : false;
-              }
-            });
+    result = Fruits.predicateFruit(appleList, apple -> apple.getWeight() > 500 ? true : false);
     for (Object a : result) {
       System.out.println(((Apple) a).getWeight());
     }
     // 判断苹果颜色
     result =
-        Fruits.predicateFruit(
-            appleList,
-            new FruitsPredicate<Apple>() {
-              @Override
-              public boolean test(Apple apple) {
-                return "red".equals(apple.getColor()) ? true : false;
-              }
-            });
+        Fruits.predicateFruit(appleList, apple -> "red".equals(apple.getColor()) ? true : false);
     for (Object a : result) {
       System.out.println(((Apple) a).getColor());
     }
