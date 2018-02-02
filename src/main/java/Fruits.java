@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * @author WuGYu
@@ -44,6 +43,15 @@ interface FruitsPredicate<T> {
 class Apple {
   private String color;
   private int weight;
+  private String appleName;
+
+  public String getAppleName() {
+    return appleName;
+  }
+
+  public void setAppleName(String appleName) {
+    this.appleName = appleName;
+  }
 
   Apple(String color, int weight) {
     this.color = color;
@@ -51,6 +59,12 @@ class Apple {
   }
 
   Apple() {}
+
+  Apple(String color, int weight, String appleName) {
+    this.color = color;
+    this.weight = weight;
+    this.appleName = appleName;
+  }
 
   public int getWeight() {
     return weight;
