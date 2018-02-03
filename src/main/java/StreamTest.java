@@ -15,6 +15,10 @@ public class StreamTest {
   public static void limitTest(List<Apple> apples) {
     apples.stream().limit(2).map(Apple::getAppleName).forEach(System.out::println);
   }
+  // skip
+  public static void skipTest(List<Apple> apples) {
+    apples.stream().skip(2).map(Apple::getAppleName).forEach(System.out::println);
+  }
 
   public static void main(String[] args) {
     List<Apple> testList = new ArrayList<>();
@@ -26,5 +30,7 @@ public class StreamTest {
     StreamTest.filterTest(testList, a -> a.getWeight() > 500);
     // limit获取前两个苹果的信息
     StreamTest.limitTest(testList);
+    // skip前两个苹果
+    StreamTest.skipTest(testList);
   }
 }
