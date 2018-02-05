@@ -1,8 +1,7 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.BinaryOperator;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * @author WuGYu
@@ -54,6 +53,40 @@ public class StreamTest {
       System.out.println("can not find");
     }
   }
+  // reduce
+  public static void reduceTest(List<Apple> apples, BinaryOperator<Integer> binaryOperator) {
+    Integer i = apples.stream().map(Apple::getWeight).reduce(0, binaryOperator);
+    System.out.println(i);
+  }
+  // IntStream
+  public static void intStreamTest(List<Apple> apples) {
+    OptionalDouble result = apples.stream().mapToInt(Apple::getWeight).average();
+    System.out.println(result.orElse(0));
+  }
+  // summary
+  public static void summaryTest(List<Apple> apples) {
+    IntSummaryStatistics result =
+        apples.stream().collect(Collectors.summarizingInt(Apple::getWeight));
+    System.out.println(result);
+  }
+  // join
+  public static void joinTest(List<Apple> apples) {
+    String result = apples.stream().map(Apple::getAppleName).collect(Collectors.joining(" "));
+    System.out.println(result);
+  }
+  // groupBy
+  public static void groupByTest(List<Apple> apples) {
+    Map<Integer, Map<String, List<String>>> result =
+        apples
+            .stream()
+            .collect(
+                Collectors.groupingBy(
+                    Apple::getWeight,
+                    Collectors.groupingBy(
+                        Apple::getColor,
+                        Collectors.mapping(Apple::getAppleName, Collectors.toList()))));
+    System.out.println(result);
+  }
 
   public static void main(String[] args) {
     List<Apple> testList = new ArrayList<>();
@@ -77,5 +110,15 @@ public class StreamTest {
     StreamTest.findAnyTest(testList, a -> "red".equals(a.getColor()));
     // 寻找第一个重量小于300的苹果
     StreamTest.findFirstTest(testList, a -> a.getWeight() < 300);
+    // 计算所有苹果的重量
+    StreamTest.reduceTest(testList, (a, b) -> a + b);
+    // 计算所有苹果的平均重量
+    StreamTest.intStreamTest(testList);
+    // 获取苹果的相关属性
+    StreamTest.summaryTest(testList);
+    // 将苹果的名字组合成一个字符串并用空格分隔
+    StreamTest.joinTest(testList);
+    // 先按照苹果的重量分组，然后安装苹果的颜色分组，最后用苹果的名字来表示分组的结果
+    StreamTest.groupByTest(testList);
   }
 }
