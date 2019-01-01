@@ -2,29 +2,28 @@ package guava.comparechain;
 
 import com.google.common.collect.ComparisonChain;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class CompareChain {
-  List<Comparator> comparators = new ArrayList<>();
+  private ComparisonChain comparisonChain;
+
+  private CompareChain() {
+    this.comparisonChain = ComparisonChain.start();
+  }
 
   public CompareChain getInstance() {
     return new CompareChain();
   }
 
   // 排序主次对象根据添加顺序确定
-  public CompareChain append(Comparator comparator) {
-    this.comparators.add(comparator);
+  public <T> CompareChain append(T left, T right, Comparator comparator) {
+    this.comparisonChain.compare(left, right, comparator);
+    this.comparisonChain.result();
     return this;
   }
 
-  private <T> int compare(T left,T right){
-    return ComparisonChain.start().
-  }
-
-  public <T> List<T> result(List<T> objs){
-    List<T> result = new ArrayList<>();
-    objs.stream().sorted()
+  public <T> List<T> result(List<T> objCompare) {
+    objCompare.stream().sorted();
   }
 }
